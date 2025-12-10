@@ -1,12 +1,12 @@
-package com.thetestingacademy;
+package com.thetestingacademy.ex_01_RA_HelloWorld;
 
 import io.restassured.RestAssured;
 
-public class HelloWorld {
+public class HelloWorld2 {
     public static void main(String[] args) {
         RestAssured
                 .given().baseUri("https://www.google.com/").log().all()
                 .when().get()
-                .then().log().all();
+                .then().statusCode(200).log().all();
     }
 }
