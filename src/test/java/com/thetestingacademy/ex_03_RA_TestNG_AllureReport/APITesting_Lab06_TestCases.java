@@ -1,7 +1,8 @@
 package com.thetestingacademy.ex_03_RA_TestNG_AllureReport;
 
 import io.restassured.RestAssured;
-import org.junit.Test;
+import org.testng.annotations.Test;
+
 
 public class APITesting_Lab06_TestCases {
     String pincode = "110048";
