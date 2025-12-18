@@ -1,4 +1,4 @@
-package com.thetestingacademy.ex_05_TestValidations;
+package com.thetestingacademy.ex_06_TestValidations;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -6,22 +6,19 @@ import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
+import org.testng.annotations.Test;
 
-import java.time.Duration;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
-public class APITesting027_TestNG_RA_AssertJ_Assertions {
+public class APITesting025_RestAssured_Assertions {
 
     RequestSpecification requestSpecification;
     Response response;
     ValidatableResponse validatableResponse;
 
     String token;
-    Integer bookingId;
+    Integer bookingID;
 
-    public void test_POST(){
+    @Test
+    public void test_createBooking_Post(){
         String payload = "{\n" +
                 "    \"firstname\" : \"Prmaod\",\n" +
                 "    \"lastname\" : \"Brown\",\n" +
@@ -41,48 +38,16 @@ public class APITesting027_TestNG_RA_AssertJ_Assertions {
 
         Response response = requestSpecification.when().post();
 
-        //Get Validatable response to perform validation
+
+ // Get Validateble response to perform validation
         validatableResponse = response.then().log().all();
         validatableResponse.statusCode(200);
 
-        //Rest Assured-> import.org.hamcrest.Matchers; %4-%5
-        //Matchers.equalto()
-
+        validatableResponse.body("bookingid", Matchers.notNullValue());
         validatableResponse.body("booking.firstname",Matchers.equalTo("pramod"));
         validatableResponse.body("booking.lastname",Matchers.equalTo("Brown"));
         validatableResponse.body("booking.depositpaid",Matchers.equalTo(true));
-        validatableResponse.body("bookingid", Matchers.notNullValue());
-
-        //TestNG - Extract the Details of the firstname , booking id, lastname from
-        bookingId = response.then().extract().path("bookingid");
-        String firstname = response.then().extract().path("booking.firstname");
-        String lastname = response.then().extract().path("booking.lastname");
-
-        //TestNG Asserstions - 75%
-        // SoftAssert vs
-        // HardAssert -
-        // This means that if any assertion fails
-        // the remaining statements in that test method will not be executed
-
-        Assert.assertEquals(firstname, "Pramod");
-        Assert.assertEquals(lastname,"Dutta");
-        Assert.assertNotNull(bookingId);
-
-        //AsserJ
-        assertThat(bookingId).isPositive().isNotNull().isNotZero();
-        assertThat(firstname).isNotEmpty().isNotEmpty().isNotBlank().isNotNull().isEqualTo("Pramod");
-
-        //String S =""; //Empty
-        //String S2 =" " // blank
-
-        
-
-
-
-
 
 
     }
-
-
 }

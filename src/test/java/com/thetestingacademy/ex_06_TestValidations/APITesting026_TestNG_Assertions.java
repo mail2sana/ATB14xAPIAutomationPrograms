@@ -1,4 +1,4 @@
-package com.thetestingacademy.ex_05_TestValidations;
+package com.thetestingacademy.ex_06_TestValidations;
 
 import org.junit.Assert;
 import org.testng.annotations.Test;

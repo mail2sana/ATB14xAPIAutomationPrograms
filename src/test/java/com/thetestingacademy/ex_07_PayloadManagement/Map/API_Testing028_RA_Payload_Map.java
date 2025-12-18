@@ -1,4 +1,4 @@
-package com.thetestingacademy.ex_05_TestValidations;
+package com.thetestingacademy.ex_07_PayloadManagement.Map;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -8,8 +8,10 @@ import io.restassured.specification.RequestSpecification;
 import org.hamcrest.Matchers;
 import org.testng.annotations.Test;
 
-public class APITesting025_RestAssured_Assertions {
+import java.util.LinkedHashMap;
+import java.util.Map;
 
+public class API_Testing028_RA_Payload_Map {
     RequestSpecification requestSpecification;
     Response response;
     ValidatableResponse validatableResponse;
@@ -19,6 +21,9 @@ public class APITesting025_RestAssured_Assertions {
 
     @Test
     public void test_createBooking_Post(){
+        // Not using the below string instead map going to use
+/*
+        String name = "Lucky";
         String payload = "{\n" +
                 "    \"firstname\" : \"Prmaod\",\n" +
                 "    \"lastname\" : \"Brown\",\n" +
@@ -30,16 +35,37 @@ public class APITesting025_RestAssured_Assertions {
                 "    },\n" +
                 "    \"additionalneeds\" : \"Breakfast\"\n" +
                 "}";
+
+ */
+
+        //Hashmap - key value - order is not maintainted
+        //LinkedHashmap - can maintain the order
+        // Treemap - Sorting
+
+        Map<String,Object>jsonBodyUsingMap = new LinkedHashMap<>();
+        jsonBodyUsingMap.put("firstname","PRamod");
+        jsonBodyUsingMap.put("lastname","Dutta");
+        jsonBodyUsingMap.put("totalprice",123);
+        jsonBodyUsingMap.put("depositpaid",false);
+        Map<String,Object>bookingDatesMap = new LinkedHashMap<>();
+        bookingDatesMap.put("checkin","2018-01-01");
+        bookingDatesMap.put("checkout","2019-01-01");
+
+        jsonBodyUsingMap.put("bookingdates",bookingDatesMap);
+        jsonBodyUsingMap.put("additionalneeds","Breakfast");
+        System.out.println(jsonBodyUsingMap);
+
+
         requestSpecification= RestAssured.given();
         requestSpecification.baseUri("https://restful-booker.herokuapp.com");
         requestSpecification.basePath("/booking/");
         requestSpecification.contentType(ContentType.JSON);
-        requestSpecification.body(payload).log().all();
+        requestSpecification.body(jsonBodyUsingMap).log().all();
 
         Response response = requestSpecification.when().post();
 
 
- // Get Validateble response to perform validation
+        // Get Validateble response to perform validation
         validatableResponse = response.then().log().all();
         validatableResponse.statusCode(200);
 
